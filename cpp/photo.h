@@ -1,0 +1,52 @@
+#ifndef PHOTO_H
+#define PHOTO_H
+
+#include <string>
+#include <iostream>
+#include "multimedia.h"
+
+class Photo : public Multimedia
+{
+private:
+    double latitude{};
+    double longitude{};
+
+public:
+    Photo() : Multimedia()
+    {
+        latitude = 0.;
+        longitude = 0.;
+    };
+    Photo(string name, string path, double latitude, double longitude) : Multimedia(name, path)
+    {
+        this->latitude = latitude;
+        this->longitude = longitude;
+    };
+
+    double getLatitude() const { return latitude; };
+    double getLongitude() const { return longitude; };
+
+    void setLatitude(double latitude) { this->latitude = latitude; };
+    void setLongitude(double longitude) { this->longitude = longitude; };
+
+    void display(std::ostream &s) const override
+    {
+        s << "Multimedia Object: Name: " << getName() << " ,Path: " << getPath() << " ,Latitude : " << latitude << " ,Longitude : " << longitude << ".";
+    };
+
+    void play() const override
+    {
+        string command = "eog ";
+        command += getPath() + getName();
+        command += " &";
+        cout << "Playing photo " << getName() << " located at " << getPath() << endl;
+        system(command.data());
+    };
+
+    ~Photo() override
+    {
+        cout << "Photo object " << getName() << " is destructed." << endl;
+    };
+};
+
+#endif // PHOTO_H
